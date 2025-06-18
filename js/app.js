@@ -5,6 +5,7 @@ function iniciarApp() {
     selectCategorias.addEventListener('change', seleccionarCategorias)
 
     const resultado = document.querySelector('#resultado')
+    const modal = new bootstrap.Modal('#modal', {})
 
     function obtenerCategorias() {
         const url = 'https://www.themealdb.com/api/json/v1/1/categories.php'
@@ -95,7 +96,21 @@ function iniciarApp() {
     }
 
     function mostrarRecetaModal(receta) {
-        console.log(receta)
+        const  { idMeal, strInstructions, strMeal, strMealThumb } = receta
+
+        // Añadir contenido al modal
+        const modalTitle = document.querySelector('.modal .modal-title') 
+        const modalBody = document.querySelector('.modal .modal-body') 
+
+        modalTitle.textContent = strMeal
+        modalBody.innerHTML = `
+            <img class="img-fluid" src="${strMealThumb}" alr="Receta de ${strMeal}" />
+            <h3 class="my-3">Instrucciones</h3>
+            <p>${strInstructions}</p>
+        `
+
+        // Mostrar modal
+        modal.show()
     }
 
     function limpiarHTML(selector) {
