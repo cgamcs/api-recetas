@@ -107,7 +107,45 @@ function iniciarApp() {
             <img class="img-fluid" src="${strMealThumb}" alr="Receta de ${strMeal}" />
             <h3 class="my-3">Instrucciones</h3>
             <p>${strInstructions}</p>
+            <h3 class="my-3">Ingredientes</h3>
         `
+
+        const listGroup = document.createElement('UL')
+        listGroup.classList.add('list-group')
+
+        // Mostrar cantidades e ingredientes
+        for(let i =1; i <= 20; i++) {
+            if(receta[`strIngredient${i}`]) {
+                const ingrediente = receta[`strIngredient${i}`]
+                const cantidad = receta[`strMeasure${i}`]
+
+                const ingredienteLi = document.createElement('LI')
+                ingredienteLi.classList.add('list-group-item')
+                ingredienteLi.textContent = `${ingrediente} - ${cantidad}`
+
+                listGroup.appendChild(ingredienteLi)
+            }
+        }
+
+        modalBody.appendChild(listGroup)
+
+        const modalFooter = document.querySelector('.modal-footer')
+        limpiarHTML(modalFooter)
+        
+        // Botones de cerrar y favorito
+        const btnFavorito = document.createElement('BUTTON')
+        btnFavorito.classList.add('btn', 'btn-danger', 'col')
+        btnFavorito.textContent = 'Guardar Favorito'
+
+        const btnCerrar = document.createElement('BUTTON')
+        btnCerrar.classList.add('btn', 'btn-secondary', 'col')
+        btnCerrar.dataset.bsToggle = 'modal'
+        btnCerrar.textContent = 'Cerrar'
+
+        modalFooter.appendChild(btnFavorito)
+        modalFooter.appendChild(btnCerrar)
+
+        
 
         // Mostrar modal
         modal.show()
