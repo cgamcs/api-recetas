@@ -137,6 +137,15 @@ function iniciarApp() {
         btnFavorito.classList.add('btn', 'btn-danger', 'col')
         btnFavorito.textContent = 'Guardar Favorito'
 
+        // localStorage
+        btnFavorito.onclick = function() {
+            agregarFavorito({
+                id: idMeal,
+                title: strMeal,
+                img: strMealThumb
+            })
+        }
+
         const btnCerrar = document.createElement('BUTTON')
         btnCerrar.classList.add('btn', 'btn-secondary', 'col')
         btnCerrar.dataset.bsToggle = 'modal'
@@ -149,6 +158,11 @@ function iniciarApp() {
 
         // Mostrar modal
         modal.show()
+    }
+
+    function agregarFavorito(receta) {
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? []
+        localStorage.setItem('favoritos', JSON.stringify([...favoritos, receta]))
     }
 
     function limpiarHTML(selector) {
