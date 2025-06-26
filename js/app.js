@@ -143,6 +143,7 @@ function iniciarApp() {
             if(existeStorage(idMeal)) {
                 eliminarFavorito(idMeal)
                 btnFavorito.textContent = 'Guardar Favorito'
+                mostrarToast('Eliminado Correctamente')
                 return
             }
 
@@ -152,6 +153,7 @@ function iniciarApp() {
                 img: strMealThumb
             })
             btnFavorito.textContent = 'Eliminar Favorito'
+            mostrarToast('Agregado Correctamente')
         }
 
         const btnCerrar = document.createElement('BUTTON')
@@ -162,8 +164,6 @@ function iniciarApp() {
         modalFooter.appendChild(btnFavorito)
         modalFooter.appendChild(btnCerrar)
 
-        
-
         // Mostrar modal
         modal.show()
     }
@@ -173,15 +173,23 @@ function iniciarApp() {
         localStorage.setItem('favoritos', JSON.stringify([...favoritos, receta]))
     }
 
+    function eliminarFavorito(id) {
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? []
+        const nuevoFavoritos = favoritos.filter(favorito => favorito.id !== id)
+        localStorage.setItem('favoritos', JSON.stringify(nuevoFavoritos))
+    }
+
     function existeStorage(id) {
         const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? []
         return favoritos.some(favorito => favorito.id === id)
     }
 
-    function eliminarFavorito(id) {
-        const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? []
-        const nuevoFavoritos = favoritos.filter(favorito => favorito.id !== id)
-        localStorage.setItem('favoritos', JSON.stringify(nuevoFavoritos))
+    function mostrarToast(mensaje) {
+        const toastDiv = document.querySelector('#toast')
+        const toastBody = document.querySelector('.toast-body')
+        const toast = new bootstrap.Toast(toastDiv)
+        toastBody.textContent = mensaje
+        toast.show()
     }
 
     function limpiarHTML(selector) {
